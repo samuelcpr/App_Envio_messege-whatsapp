@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { create, Whatsapp } = require('venom-bot');
 
 const app = express();
-
+app.use(cors());
 // Configuração do middleware para análise do corpo das requisições
 app.use(bodyParser.json());
 
@@ -68,7 +69,7 @@ app.post('/send', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`Servidor iniciado na porta ${PORT}`);
 });
