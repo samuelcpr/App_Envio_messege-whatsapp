@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { create, Whatsapp } = require('venom-bot');
+const { create, Client } = require('venom-bot'); // Corrigido: Importando Client de venom-bot
 
 const app = express();
 app.use(cors());
@@ -30,6 +30,38 @@ app.get('/qrcode', async (req, res) => {
   } catch (error) {
     console.error('Erro ao obter QR code:', error);
     res.status(500).json({ success: false, message: 'Erro ao obter QR code' });
+  }
+});
+
+app.get('/disconnect', async (req, res) => {
+  try {
+    if (sharedClient) {
+      // Verifica se há um cliente compartilhado
+      await sharedClient.close(); // Fecha a sessão compartilhada
+      sharedClient = null; // Define sharedClient como null para indicar que não há sessão ativa
+      res.status(200).json({ success: true, message: 'Todos os dispositivos foram desconectados com sucesso.' });
+    } else {
+      // Se não houver um cliente compartilhado ativo, retorna uma mensagem
+      res.status(200).json({ success: true, message: 'Não há dispositivos conectados para desconectar.' });
+    }
+  } catch (error) {
+    console.error('Erro ao desconectar dispositivos:', error);
+    res.status(500).json({ success: false, message: 'Erro ao desconectar dispositivos.' });
+  }
+});
+
+app.get('/login', async (req, res) => {
+  try {
+    const client = new Client(); // Corrigido: Criando uma nova instância de Client
+    await client.initialize(); // Inicialize o cliente
+
+    // Gere o QR code para o login do usuário
+    const qrCode = await client.getQrCode();
+
+    res.status(200).json({ success: true, qrCode });
+  } catch (error) {
+    console.error('Erro ao gerar QR code para login:', error);
+    res.status(500).json({ success: false, message: 'Erro ao gerar QR code para login.' });
   }
 });
 
