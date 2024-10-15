@@ -1,4 +1,4 @@
-*1. Instalar a biblioteca libvips*
+*1. Instalar a biblioteca libvips*<br>
 Em sistemas baseados em Ubuntu ou Debian, você pode instalar a biblioteca libvips com o seguinte comando:
 
 bash
@@ -6,7 +6,7 @@ Copiar código
 ``sudo apt-get install libvips-dev``
 Isso instalará as dependências necessárias para o sharp funcionar corretamente.
 
-*2. Reinstalar o módulo sharp*
+*2. Reinstalar o módulo sharp*<br>
 Após instalar a biblioteca libvips, é recomendável remover a pasta node_modules e reinstalar todas as dependências para garantir que o sharp seja compilado com as dependências corretas:
 
 Se estiver usando yarn:
@@ -21,16 +21,16 @@ bash
 Copiar código
 ``rm -rf node_modules``
 ``npm install``
-*3. Instalar o sharp com suporte específico para o sistema operaciona*
+*3. Instalar o sharp com suporte específico para o sistema operaciona*<br>
 Se você continuar enfrentando problemas, pode reinstalar o sharp com suporte específico para seu sistema operacional. No caso de sistemas Linux com arquitetura x64, use o comando abaixo:
 
 bash
 Copiar código
 ``npm install --os=linux --cpu=x64 sharp``
-*4. Documentação de Instalação do sharp*
+*4. Documentação de Instalação do sharp*<br>
 Se o problema persistir, consulte a documentação oficial de instalação do sharp para mais detalhes: Documentação de Instalação do sharp.
 
-*5. Downgrade do Node.js (Opcional)*
+*5. Downgrade do Node.js (Opcional)*<br>
 Se após seguir os passos acima o erro persistir, pode haver uma incompatibilidade com a versão do Node.js que está sendo utilizada (v20.18.0). Neste caso, sugerimos fazer o downgrade para uma versão mais estável (como a v18.x), que possui melhor compatibilidade com diversas bibliotecas. Para isso, siga os comandos abaixo:
 
 Instalar e utilizar a versão 18 do Node.js com nvm:
