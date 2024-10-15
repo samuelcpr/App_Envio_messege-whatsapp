@@ -3,7 +3,7 @@ Em sistemas baseados em Ubuntu ou Debian, você pode instalar a biblioteca libvi
 
 bash
 Copiar código
-sudo apt-get install libvips-dev
+<script>sudo apt-get install libvips-dev</script>
 Isso instalará as dependências necessárias para o sharp funcionar corretamente.
 
 2. Reinstalar o módulo sharp
