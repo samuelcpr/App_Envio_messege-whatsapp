@@ -1,16 +1,30 @@
 version: "3.8"
-
 services:
-  postgres:
-    image: postgres:latest
+  api-whatsapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-whatsapp
+    ports:
+      - "3000:3000"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: mydatabase
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: whatsapp_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
 volumes:
   postgres_data:
