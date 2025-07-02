@@ -114,18 +114,29 @@ app.post('/upload', upload.single('image'), async (req, res) => {
 // Rota para enviar mensagens (texto ou imagem)
 app.post('/send', upload.single('image'), async (req, res) => {
   try {
-    if (!sharedClient) return res.status(400).json({ success: false, message: 'WhatsApp não conectado' });
+    if (!sharedClient)
+      return res.status(400).json({ success: false, message: 'WhatsApp não conectado' });
 
     const numbers = JSON.parse(req.body.numbers);
     const message = req.body.message;
-    const image = req.file;
+    const file = req.file;
 
     const promises = numbers.map(async (number) => {
       const to = `${number}@c.us`;
-      if (image) {
-        const ext = path.extname(image.originalname).substring(1);
-        const base64Image = `data:image/${ext};base64,${image.buffer.toString('base64')}`;
-        return await sharedClient.sendImageFromBase64(to, base64Image, image.originalname, message);
+
+      if (file) {
+        const ext = path.extname(file.originalname).substring(1).toLowerCase();
+        const base64Data = file.buffer.toString('base64');
+
+        if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+          const base64Image = `data:image/${ext};base64,${base64Data}`;
+          return await sharedClient.sendImageFromBase64(to, base64Image, file.originalname, message);
+        } else if (['mp4'].includes(ext)) {
+          const base64Video = `data:video/${ext};base64,${base64Data}`;
+          return await sharedClient.sendFileFromBase64(to, base64Video, file.originalname, message);
+        } else {
+          throw new Error(`Tipo de arquivo '${ext}' não suportado.`);
+        }
       } else {
         return await sharedClient.sendText(to, message);
       }
@@ -135,9 +146,14 @@ app.post('/send', upload.single('image'), async (req, res) => {
     res.json({ success: true, data: results });
   } catch (error) {
     console.error('Erro ao enviar mensagens:', error);
-    res.status(500).json({ success: false, message: 'Erro ao enviar mensagens', error: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Erro ao enviar mensagens',
+      error: error.message,
+    });
   }
 });
+
 
 // Rota para desconectar sessão WhatsApp
 app.get('/disconnect', async (req, res) => {
