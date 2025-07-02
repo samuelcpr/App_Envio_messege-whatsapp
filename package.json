@@ -1,11 +1,10 @@
 {
-  "name": "api-whasapp",
+  "name": "api-whatsapp",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "API WhatsApp com Venom-Bot, Express e PostgreSQL",
+  "main": "app.js",
   "scripts": {
-    "dev": "node app.js",
-    "build": "node build"
+    "dev": "node app.js"
   },
   "dependencies": {
     "axios": "^1.6.8",
@@ -13,11 +12,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "got": "^11.8.5",
     "multer": "^1.4.5-lts.1",
     "pg": "^8.13.0",
-    "sharp": "^0.33.5",
-    "venom-bot": "^5.0.21",
-    "ws": "^8.17.1"
+    "venom-bot": "^5.3.0"
   }
 }
